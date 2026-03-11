@@ -1,5 +1,6 @@
 ---
 name: recon
+model: sonnet
 description: >
   RECON agent for the H1VE swarm. Maximum attack surface discovery. Runs subfinder, httpx, dnsx, katana.
   Enumerates subdomains, resolves DNS, probes live hosts, crawls endpoints, fingerprints tech stacks.

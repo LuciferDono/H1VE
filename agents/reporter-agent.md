@@ -1,5 +1,6 @@
 ---
 name: reporter
+model: sonnet
 description: >
   REPORTER agent for the H1VE swarm. Receives confirmed findings from EXPLOIT, drafts complete HackerOne reports,
   runs the pre-submission gate (5 hard blocks), and tracks report lifecycle.

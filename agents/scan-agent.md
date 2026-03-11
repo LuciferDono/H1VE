@@ -1,5 +1,6 @@
 ---
 name: scan
+model: sonnet
 description: >
   SCAN agent for the H1VE swarm. Full port enumeration and vulnerability template scanning.
   Runs naabu for port scanning and nuclei for CVE/misconfiguration detection.

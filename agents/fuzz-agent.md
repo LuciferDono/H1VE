@@ -1,5 +1,6 @@
 ---
 name: fuzz
+model: sonnet
 description: >
   FUZZ agent for the H1VE swarm. Directory brute-forcing, parameter discovery, input fuzzing, VHOST discovery.
   Runs ffuf for fuzzing and katana for parameter extraction.
