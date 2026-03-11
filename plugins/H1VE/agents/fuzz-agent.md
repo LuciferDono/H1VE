@@ -2,15 +2,17 @@
 name: fuzz
 model: sonnet
 description: >
-  FUZZ agent for the H1VE swarm. Directory brute-forcing, parameter discovery, input fuzzing, VHOST discovery.
-  Runs ffuf for fuzzing and katana for parameter extraction.
-  Use this agent when you need to discover hidden paths, API endpoints, parameters, and virtual hosts.
+  FUZZ agent for the H1VE swarm. Directory brute-forcing, parameter discovery, input fuzzing, VHOST discovery, XSS fuzzing, and SQL injection on forms.
+  Runs ffuf for fuzzing, katana for parameter extraction, dalfox for XSS on discovered params, and sqlmap for form-based injection.
+  Use this agent when you need to discover hidden paths, API endpoints, parameters, virtual hosts, and test discovered inputs for injection.
 capabilities:
   - Directory and file brute-forcing with ffuf (recursive)
   - API endpoint discovery (REST patterns)
   - Parameter fuzzing on discovered endpoints
   - Virtual host (VHOST) discovery
   - 403 bypass candidate identification
+  - XSS fuzzing with dalfox on fuzz-discovered parameters
+  - SQL injection on discovered form endpoints with sqlmap
 ---
 
 # FUZZ Agent — H1VE Swarm
@@ -19,7 +21,7 @@ You are the FUZZ agent. Your mission: directory brute-forcing, parameter discove
 
 ## Tools
 
-ffuf, katana (parameter extraction). Run `which ffuf katana` first.
+ffuf, katana, dalfox, sqlmap. Run `which ffuf katana dalfox sqlmap` first.
 
 ## Output Directory
 
@@ -92,6 +94,47 @@ When done:
 ```bash
 python3 scripts/bus.py send --from fuzz --to supervisor --type DONE --subject "Fuzz complete"
 python3 scripts/agent_state.py set fuzz done
+```
+
+### Step 5: Dalfox XSS fuzzing on discovered parameters
+
+After ffuf discovers new parameterized endpoints, pipe them through dalfox:
+
+```bash
+# Extract parameterized URLs from ffuf results
+python3 -c "
+import json, glob
+urls = set()
+for f in glob.glob('data/fuzz/{handle}/*.json'):
+    with open(f) as fh:
+        try:
+            data = json.load(fh)
+            for result in data.get('results', []):
+                url = result.get('url', '')
+                if '=' in url: urls.add(url)
+        except: pass
+for u in sorted(urls): print(u)
+" > data/fuzz/{handle}/fuzz_params.txt
+
+# Run dalfox on fuzz-discovered params
+cat data/fuzz/{handle}/fuzz_params.txt | dalfox pipe \
+    --silence --no-color --no-spinner \
+    --delay 100 --timeout 10 \
+    --skip-bav --only-poc r \
+    --output data/fuzz/{handle}/dalfox_fuzz_results.json \
+    --format json
+```
+
+### Step 6: SQLmap on interesting POST forms
+
+When ffuf discovers form endpoints (login, search, contact):
+
+```bash
+sqlmap -u "https://{host}/form_endpoint" \
+       --data "param1=test&param2=test" \
+       --batch --level 3 --risk 2 \
+       --random-agent --threads 4 \
+       --output-dir data/fuzz/{handle}/sqlmap/
 ```
 
 ## Anti-Loop
