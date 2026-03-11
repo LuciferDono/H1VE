@@ -1,0 +1,43 @@
+{
+  "name": "h1ve-marketplace",
+  "owner": {
+    "name": "LuciferDono",
+    "email": "pranavj821@gmail.com"
+  },
+  "metadata": {
+    "description": "H1VE: Multi-agent swarm architecture for full-lifecycle bug bounty hunting. 5 specialized agents coordinated by a Supervisor through a Shared Bus Protocol.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "H1VE",
+      "source": "./plugins/H1VE",
+      "description": "Multi-agent swarm architecture for full-lifecycle bug bounty hunting. 5 specialized agents (RECON, SCAN, FUZZ, EXPLOIT, REPORTER) coordinated by a Supervisor through a Shared Bus Protocol.",
+      "version": "1.0.0",
+      "author": {
+        "name": "LuciferDono"
+      },
+      "homepage": "https://github.com/LuciferDono/H1VE",
+      "repository": "https://github.com/LuciferDono/H1VE",
+      "license": "MIT",
+      "keywords": [
+        "bug-bounty",
+        "security",
+        "pentesting",
+        "hackerone",
+        "recon",
+        "swarm",
+        "multi-agent"
+      ],
+      "category": "security",
+      "tags": [
+        "bug-bounty",
+        "hackerone",
+        "swarm-architecture",
+        "vulnerability-scanning",
+        "recon",
+        "exploitation"
+      ]
+    }
+  ]
+}

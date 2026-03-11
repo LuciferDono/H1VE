@@ -1,0 +1,9 @@
+{
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "description": "Show H1VE swarm status on session start",
+      "command": "bash -c 'echo \"[H1VE] Session started.\"; if [ -f data/bus/agent_states.json ]; then python3 scripts/agent_state.py list 2>/dev/null; else echo \"  No active swarm. Run /h1ve <target> to activate.\"; fi'"
+    }
+  ]
+}

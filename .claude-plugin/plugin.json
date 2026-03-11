@@ -1,0 +1,20 @@
+{
+  "name": "H1VE",
+  "version": "1.0.0",
+  "description": "Multi-agent swarm architecture for full-lifecycle bug bounty hunting. 5 specialized agents (RECON, SCAN, FUZZ, EXPLOIT, REPORTER) coordinated by a Supervisor through a Shared Bus Protocol. Covers reconnaissance, vulnerability scanning, fuzzing, exploitation validation, and HackerOne report delivery.",
+  "author": {
+    "name": "LuciferDono",
+    "url": "https://github.com/LuciferDono"
+  },
+  "repository": "https://github.com/LuciferDono/bug-bounty-hunter",
+  "license": "MIT",
+  "keywords": [
+    "bug-bounty",
+    "security",
+    "pentesting",
+    "hackerone",
+    "recon",
+    "swarm",
+    "multi-agent"
+  ]
+}
